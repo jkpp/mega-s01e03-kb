@@ -4,7 +4,7 @@ title: '#4471 · three problems, not one'
 owner: jkpp
 status: closed
 reviewed: 2026-10-31
-signature: jkpp
+signature: 'v1.eyJzdG9yeSI6Im9mZiIsInN1YiI6IjQyNjgiLCJhdWQiOiJjaGFsbGVuZ2U6d2hhdC1pdC1zaG93cyIsImlhdCI6MTc5MzQ1MjUwMiwiZXhwIjoxNzkzNTM4OTAyfQ.7rq2VLBQPbeOjiuWNugGrbpJJ-eYDqo6hw-u_2n8THI'
 ---
 
 <script>
