@@ -34,3 +34,14 @@ Support desk. Decision records: whoever signed them.
 ---
 
 Exported 2026-10-04 from the `support` repo, `apps/kb/` → `src/`.
+
+---
+
+## #4471 split (added 2026-10-31, signed jkpp)
+
+- Page: `src/routes/kb/incidents/4471/split/+page.svx` → `/kb/incidents/4471/split`
+- As the desk sees it: `rendered/kb/incidents/4471/split.html` (static build, `npm run build`)
+- Logic: `src/lib/kb/split.ts`, `src/lib/kb/SplitTable.svelte`
+- Tickets: #1 parser (374 reports), #2 booking-v3 hint (33), #3 one-day / time zone (5)
+
+Build: `npm install && npm run build`. Needs Node 22+.

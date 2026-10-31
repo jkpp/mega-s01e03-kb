@@ -1,0 +1,80 @@
+---
+layout: runbook
+title: '#4471 · three problems, not one'
+owner: jkpp
+status: open
+reviewed: 2026-10-31
+signature: jkpp
+---
+
+<script>
+  import SplitTable from '#lib/kb/SplitTable.svelte';
+  import CauseTable from '#lib/kb/CauseTable.svelte';
+  import Callout from '#lib/kb/Callout.svelte';
+  import RenderStamp from '#lib/kb/RenderStamp.svelte';
+
+  const REPO = 'https://github.com/jkpp/mega-s01e03-kb';
+  const tickets = {
+    parser: `${REPO}/issues/1`,
+    hint: `${REPO}/issues/2`,
+    'one-day': `${REPO}/issues/3`,
+  };
+</script>
+
+[#4471](/kb/incidents/4471) says "one issue, one fix queued". Its reports describe three problems.
+Each needs its own fix, and each now has its own ticket. The fix queued for the parser closes only
+the first one.
+
+<Callout kind="warn">
+Do not close the hint or one-day reports when the parser fix ships. They will still happen.
+</Callout>
+
+## The split
+
+<SplitTable ticket={4471} {tickets} />
+
+The ticket export has more rows than reports: its pages overlap, so some reports come twice. The
+counts here are per report id.
+
+## The three problems
+
+**`parser`: the shared parser reads every date month first.** A tenant that writes the day first
+(en-GB, en-IE, de-DE, fr-FR, nl-NL and the rest on file) gets day and month swapped: 4 March becomes
+3 April. It comes in through the app, by email, and through `booking-v2` forms. This is the bug
+#4471 was named for.
+
+**`hint`: the `booking-v3` form prints `MM/DD/YYYY` under its date field.** The tenant's people type
+month first because the hint tells them to, and the form reads the date the tenant's way, day first.
+The result looks the same as `parser` (a swap), so subject-line dedupe merged it. Fixing the parser
+does not fix it; the hint and the form have to agree. Only day-first tenants on `booking-v3`, only
+through the form.
+
+**`one-day`: the invite lands one day off.** No month and day swap at all: the date moves by one
+day, or differs between people in different places ("Client in Lisbon got Tuesday. Client in
+Toronto got Monday."). That points at time zone handling when the invite is made, not at reading
+the date. The desk already noted these (`desk-notes.json`), but the #4471 table counts them under
+`parser` and only footnotes them.
+
+## What the #4471 page shows instead
+
+<CauseTable ticket={4471} />
+
+It finds the `hint` rows and marks them "no ticket of its own", and it hides the one-day reports in
+a footnote. The page above it still says one issue.
+
+## Why it happened
+
+- [Decision 0001](/kb/decisions/0001-dedupe-by-subject) merges on subject line alone. Every
+  problem here produces the same subjects ("Wrong day on the invite"), so subject dedupe cannot tell
+  them apart. The bodies and the tenant can.
+- Intake's tag is a guess from the reporter's browser, not from the tenant. The "intake tagged"
+  column shows how often it disagrees with the cause. Don't triage on it.
+- The dedupe pages were last reviewed in 2024 and show as stale.
+
+## For the desk
+
+1. File new date reports against the problem in the table, not against #4471.
+2. Read the tenant (locale, booking form) and the body before merging. A one-day move is not a swap.
+3. Decision 0001 needs a successor record that merges on cause, not subject.
+
+<RenderStamp {signature} />
