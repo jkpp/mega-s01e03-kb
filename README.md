@@ -42,6 +42,6 @@ Exported 2026-10-04 from the `support` repo, `apps/kb/` → `src/`.
 - Page: `src/routes/kb/incidents/4471/split/+page.svx` → `/kb/incidents/4471/split`
 - As the desk sees it: `rendered/kb/incidents/4471/split.html` (static build, `npm run build`)
 - Components: only the ones in the export (`CauseTable`, `Callout`, `RenderStamp`)
-- Tickets: #1 parser (379 reports, 5 of them also in #3), #2 booking-v3 hint (33), #3 one-day / time zone (5)
+- Tickets (closed): #1 parser (379 reports, 5 of them also in #3), #2 booking-v3 hint (33), #3 one-day / time zone (5)
 
 Build: `npm install && npm run build`. Needs Node 22+.
